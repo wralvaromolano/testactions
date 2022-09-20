@@ -35,7 +35,8 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-          print %ENV
+
+      - run: echo $ENV
 
   # This workflow contains a single job called "build"
   build_a:
@@ -60,7 +61,8 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-          print %ENV
+
+      - run: echo $ENV
           
   # This workflow contains a single job called "build"
   build_b:
@@ -85,4 +87,5 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-          print %ENV
+
+      - run: echo $ENV
