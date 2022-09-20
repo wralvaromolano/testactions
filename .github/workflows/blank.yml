@@ -36,7 +36,7 @@ jobs:
           ls
           echo 4 "-------------------------------------"
 
-      - run: print %ENV
+      - run: echo $ENV
 
   # This workflow contains a single job called "build"
   build_a:
@@ -62,7 +62,7 @@ jobs:
           ls
           echo 4 "-------------------------------------"
 
-      - run: print %ENV
+      - run: echo $ENV
           
   # This workflow contains a single job called "build"
   build_b:
@@ -88,4 +88,4 @@ jobs:
           ls
           echo 4 "-------------------------------------"
 
-      - run: print %ENV
+      - run: echo $ENV
