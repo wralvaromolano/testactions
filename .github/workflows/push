@@ -1,10 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI on merge
 
 # Controls when the workflow will run
 on:
-  pull_request_target:
+  push:
     branches: [ "dev","test","staging" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -13,15 +13,10 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build1:
-#    strategy:
-#      matrix:
-        
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    outputs:
-        output1: ${{ steps.step1.outputs.test }}
-        output2: ${{ steps.step2.outputs.test }}
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -40,19 +35,16 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-
-      - run: echo $ENV
-
-      - id: step1
-        run: echo "::set-output name=test::hello"
-      - id: step2
-        run: echo "::set-output name=test::world"
-
+      - run: echo " Print a single environment variable (the commit SHA ) - ${{ github.sha }} "
+      - run: echo "Print all environment variables"
+      - run:  env
+      - run: echo "$GITHUB_CONTEXT"
+      
   # This workflow contains a single job called "build"
   build_a:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    needs: [build1]
+    needs: [build]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -61,8 +53,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world A!
-      - run: echo ${{needs.build1.outputs.output1}} ${{needs.build1.outputs.output2}}
-
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -73,14 +63,13 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-
-      - run: echo $ENV
+          print %ENV
           
   # This workflow contains a single job called "build"
   build_b:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    needs: [build1]
+    needs: [build]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -99,5 +88,4 @@ jobs:
           echo 2 ${{ github.head_ref || github.run_id }}
           ls
           echo 4 "-------------------------------------"
-
-      - run: echo $ENV
+      - run: echo "$GITHUB_CONTEXT"
